@@ -1,1 +1,1 @@
-# news-of-the-day
+# Recipes for All
