@@ -23,19 +23,24 @@ app.post("/submit", function(req, res) {
     });
 });
 
-// Route for getting all books from the db
-app.get("/", function(req, res) {
-  // Using our Recipe model, "find" every recipe in our db
-  recipe.find({})
-    .then(function(dbRecipe) {
-      // If any Recipes are found, send them to the client
-      res.json(dbRecipe);
-    })
-    .catch(function(err) {
-      // If an error occurs, send it back to the client
-      res.json(err);
-    });
+// Route for getting all recipes from the db
+app.get('/', function(req, res){
+  var resObject = {};
+  recipe.findAll(function(data){
+    resObject.recipe = data;
+    console.log(data)
+    res.render('home', {data:data})  
+  })
 });
+
+app.get('/scrape', function(req, res){
+  var resObject = {};
+  recipe.findAll(function(data){
+    resObject.recipe = data;
+    console.log(data)
+    res.render('home', {data:data})  
+  })
+})
 
 // Route to see what library looks like WITH populating
 app.get("/populated", function(req, res) {
