@@ -4,6 +4,7 @@ var request = require("request");
 // First, tell the console what server.js is doing
 console.log("Grabbing recipes from allrecipes website");
 
+var scrape = function(cb) {
 // Making a request for reddit's "webdev" board. The page's HTML is passed as the callback's third argument
 request("https://www.allrecipes.com/recipes/", function(error, response, html) {
 
@@ -12,7 +13,7 @@ request("https://www.allrecipes.com/recipes/", function(error, response, html) {
   var $ = cheerio.load(html);
 
   // An empty array to save the data that we'll scrape
-  var results = [];
+  var results = {};
 
   // (i: iterator. element: the current element)
   $("article.fixed-recipe-card").each(function(i, element) {
@@ -35,12 +36,13 @@ request("https://www.allrecipes.com/recipes/", function(error, response, html) {
       summary: summary,
       link: link
     });
-  });
-
   // Log the results once you've looped through each of the elements found with cheerio
-  console.log(results);
-
-  module.exports = results;
+  console.log(results);  
+  });
+  cb(results);
+  
 });
+};
 
+module.exports = scrape;
 

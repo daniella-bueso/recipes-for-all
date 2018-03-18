@@ -1,0 +1,41 @@
+<div class="contianer jumbotron text-center">
+  <h1>Recipes</h1>
+  <button class="btn btn-primary scrape">Scrape Me</button>
+</div>
+
+<div class="container">
+  
+  {{#each data}}
+  <div class="row">
+    <div class="col-md-5 text-center">
+        <h3>{{title}}</h3>
+      
+        <img src="{{img}}" alt="">
+        <p class="summary"> {{summary}} </p>
+        <p class="link"> {{link}}
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Comments
+            </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+        <div class="comments"></div>
+        <label for="new-comennt">Add a Comment</label>
+        <input type="text" class="new-comment"><span><button class="btn btn-primary new-comment-submit" type="submit" data-recipe="{{_id}}">Submit</button></span>
+    </div>
+    </div>
+    <hr>
+  {{/each}}
+</div>
+<script>
+  $('.scrape').on('click', function(){
+    $.get('/scrape', function() {
+    }).then(location.reload())
+  })
+  $('.new-comment-submit').on('click', function() {
+    var userinput = $("input:text").val();
+    var recipe = $(this).attr('data-recipe')
+    $.post('/newcomment/' + recipe_name, {input:userinput}, function(data) {
+     console.log(data, "data")
+    })
+  })
+</script>
